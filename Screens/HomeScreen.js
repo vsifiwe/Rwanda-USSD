@@ -1,61 +1,86 @@
+import React, { useState } from 'react';
+import { Dimensions, SafeAreaView, Image } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
 import {
-    StyleSheet,
-    Text,
-    View,
-    Button,
-    TouchableOpacity,
-    ScrollView,
-    TouchableWithoutFeedback,
-} from 'react-native';
-import Card from '../Components/Card';
-import cardNames from '../Constants/cards';
+	Button,
+	Divider,
+	Layout,
+	StyleService,
+	TopNavigation,
+	useStyleSheet,
+	Input,
+	Sta,
+} from '@ui-kitten/components';
 
-export default function HomeScreen({ navigation }) {
-    return (
-        <View style={styles.container}>
-            <View style={styles.row}>
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => navigation.navigate('Second')}
-                >
-                    <Card color='#FF0000' subColor='#FFFFFF' name='Airtel' />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button}>
-                    <Card color='#FFCC00' subColor='#000000' name='MTN' />
-                </TouchableOpacity>
-            </View>
-            <View style={styles.row}>
-                <TouchableOpacity style={styles.button}>
-                    <Card
-                        color='#0015FF'
-                        subColor='#FFFFFF'
-                        name='Buy Electricity'
-                    />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button}>
-                    <Card color='#10c935' subColor='#FFFFFF' name='Pay Water' />
-                </TouchableOpacity>
-            </View>
-            <StatusBar style='auto' />
-        </View>
-    );
-}
+const width = Dimensions.get('screen').width * 0.8;
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-    },
-    opacity: {
-        flex: 1,
-    },
-    button: {
-        padding: 10,
-        flexDirection: 'row',
-    },
-    row: {
-        flexDirection: 'row',
-    },
+export const HomeScreen = ({ navigation }) => {
+	const [number, setNumber] = useState('');
+	const [amount, setAmount] = useState('');
+
+	const validateNumber = (n) => {
+		let regex = /^07[238][0-9]{7}/;
+		return regex.test(n);
+	};
+
+	const terminate = () => {
+		if (validateNumber(number) == !true) {
+			// TODO: Show an error message
+			return;
+		}
+		console.log(number);
+	};
+
+	const styles = useStyleSheet(themedStyles);
+
+	return (
+		<SafeAreaView style={styles.container}>
+			<TopNavigation title="MyApp" alignment="center" />
+			<Divider />
+			<Image
+				style={styles.image}
+				source={require('../assets/Onboarding/1.png')}
+			/>
+			<Input
+				value={number}
+				label="Number"
+				placeholder="Enter your phone number"
+				caption="E.g: 0712332112"
+				maxLength={10}
+				onChangeText={(nextValue) => setNumber(nextValue)}
+				keyboardType="numeric"
+			/>
+			<Input
+				value={amount}
+				label="Amount"
+				placeholder="Enter the amount"
+				caption="Discount starts from 200 RWF"
+				onChangeText={(nextValue) => setAmount(nextValue)}
+				keyboardType="numeric"
+			/>
+			<Button style={styles.button} onPress={terminate}>
+				Buy Airtime
+			</Button>
+			<StatusBar style="auto" />
+		</SafeAreaView>
+	);
+};
+
+const themedStyles = StyleService.create({
+	layout: {
+		flex: 1,
+	},
+	image: {
+		height: width,
+		width: width / 0.8,
+		alignItems: 'center',
+	},
+	button: {
+		margin: 5,
+	},
+	container: {
+		flex: 1,
+		padding: 10,
+		backgroundColor: 'background-basic-color-2',
+	},
 });
