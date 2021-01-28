@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { HomeScreen } from '../Screens/HomeScreen';
-import { DetailsScreen } from '../Screens/DetailsScreen';
+import { ServicesScreen } from '../Screens/ServicesScreen';
+import { SettingsScreen } from '../Screens/SettingsScreen';
 import OnboardingScreen from '../Screens/OnboardingScreen';
 
 const HomeStack = createStackNavigator();
@@ -15,12 +16,22 @@ export function HomeScreenStack() {
 	);
 }
 
-const DetailStack = createStackNavigator();
+const ServicesStack = createStackNavigator();
 
-export function DetailScreenStack() {
+export function ServicesScreenStack() {
 	return (
-		<DetailStack.Navigator headerMode="none">
-			<DetailStack.Screen name="Detail" component={DetailsScreen} />
-		</DetailStack.Navigator>
+		<ServicesStack.Navigator headerMode="none">
+			<ServicesStack.Screen name="Services" component={ServicesScreen} />
+		</ServicesStack.Navigator>
+	);
+}
+
+const SettingsStack = createStackNavigator();
+
+export function SettingsScreenStack() {
+	return (
+		<SettingsStack.Navigator headerMode="none">
+			<SettingsStack.Screen name="Settings" component={SettingsScreen} />
+		</SettingsStack.Navigator>
 	);
 }
